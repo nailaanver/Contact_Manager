@@ -1,12 +1,42 @@
 {% extends 'master.html' %}
 {% load static %}
 
-{% block title %}Home{% endblock %}
+{% block title %}User Dashboard{% endblock %}
 
 {% block content %}
-<div class="home-main">
-    <h1>Welcome, {{ user. username }}</h1>
-    <p>Glad to see you here </p>
-    <a href="{% url 'logout' %}" class="btn-logout">Logout</a>
+<div class="dashboard-container">
+
+    <!-- Header -->
+    <div class="dashboard-header">
+        <h1>Welcome, {{ user.username }} 👋</h1>
+        <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+    </div>
+
+    <!-- Dashboard Cards -->
+    <div class="cards">
+        <div class="card">
+            <h3>Total Contacts</h3>
+            <p>{{ contacts.count }}</p>
+        </div>
+        <div class="card">
+            <h3>Recently Added</h3>
+            <ul>
+                {% for contact in contacts|slice:":5" %}
+                    <li>{{ contact.name }} - {{ contact.phone }}</li>
+                {% empty %}
+                    <li>No contacts found</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Action Button -->
+    <div class="action-btn">
+        <!-- <a href="{% url 'add_contact' %}" class="btn">Add New Contact</a> -->
+    </div>
+
 </div>
+
+<!-- Link CSS -->
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 {% endblock %}

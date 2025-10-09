@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import LoginForm, UserForm
 from .models import Profile
 
+
+
 # --- Register ---
 def register(request):
     if request.method == 'POST':
@@ -51,6 +53,9 @@ def admin_dashboard(request):
 def user_dashboard(request):
     return render(request, 'dashboard.html')
 
+def add_contact(request):
+    # your add contact logic here
+    return render(request, 'add_contact.html')
 
 # --- Logout ---
 def logout_view(request):
