@@ -106,6 +106,18 @@ def edit_contact(request, pk):
     return render(request, 'edit.html', {'form': form, 'update': contact})
 
 
+
+def dashboard_content(request):
+    return render(request, 'partials/dashboard_content.html')
+def manage_users(request):
+    return render(request, 'partials/manage_users.html')
+
+
+def manage_contact(request):
+    contacts = Contact.objects.all()
+    return render(request, 'partials/manage_contact.html', {'contacts': contacts})
+
+
 # --- Logout ---
 def logout_view(request):
     logout(request)
