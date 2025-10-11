@@ -1,0 +1,78 @@
+/* ===== Manage Contacts Page ===== */
+.manage-contacts {
+    max-width: 1200px;
+    margin: 30px auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.1);
+}
+
+.manage-contacts h2 {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.manage-contacts table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.manage-contacts th,
+.manage-contacts td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+}
+
+.manage-contacts th {
+    background-color: var(--two-use-color);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.manage-contacts tr:hover {
+    background-color: var(--background-color3);
+    transition: 0.3s;
+}
+
+.manage-contacts td {
+    color: #333;
+}
+
+/* Responsive for tablets */
+@media screen and (max-width: 768px) {
+    .manage-contacts {
+        padding: 20px;
+    }
+
+    .manage-contacts h2 {
+        font-size: 22px;
+    }
+
+    .manage-contacts th,
+    .manage-contacts td {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+/* Responsive for mobile */
+@media screen and (max-width: 480px) {
+    .manage-contacts h2 {
+        font-size: 18px;
+    }
+
+    .manage-contacts th,
+    .manage-contacts td {
+        font-size: 12px;
+        padding: 8px;
+    }
+}

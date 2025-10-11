@@ -3,17 +3,21 @@
 {% block content %}
 
 
-<div class="manage-contact">
-    <h2>Manage Contacts</h2>
+<div class="manage-users">
+
+
+    
+
+    <h2>Manage Users</h2>
     <table>
         <tr>
-            <th>Name</th><th>Email</th><th>Phone</th>
+            <th>Name</th><th>Email</th><th>Actions</th>
         </tr>
-        {% for contact in contacts %}
+        {% for user in users %}
         <tr>
-            <td>{{ contact.name }}</td>
-            <td>{{ contact.email }}</td>
-            <td>{{ contact.phone_number }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            
         </tr>
         {% endfor %}
     </table>

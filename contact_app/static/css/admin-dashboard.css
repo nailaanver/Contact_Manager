@@ -214,6 +214,10 @@ header {
     background-color: #dadada;
     cursor: pointer;
 }
+.option4 a {
+    text-decoration: none;
+    color: black;
+}
 
 .nav-img {
     height: 30px;
@@ -566,3 +570,7 @@ header {
         width: 180px;
     }
 }
+
+
+/* nav styles */
+

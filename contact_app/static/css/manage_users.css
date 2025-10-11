@@ -1,0 +1,76 @@
+/* ===== Manage Users Page ===== */
+.manage-users {
+    max-width: 1200px;
+    margin: 30px auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 3px 3px 15px rgba(0,0,0,0.1);
+}
+
+.manage-users h2 {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.manage-users table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.manage-users th,
+.manage-users td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+}
+
+.manage-users th {
+    background-color: var(--one-use-color);
+    color: white;
+    font-weight: 600;
+}
+
+.manage-users tr:hover {
+    background-color: var(--background-color3);
+    transition: 0.3s;
+}
+
+.manage-users td {
+    color: #333;
+}
+
+/* Responsive for smaller screens */
+@media screen and (max-width: 768px) {
+    .manage-users {
+        padding: 20px;
+    }
+
+    .manage-users h2 {
+        font-size: 22px;
+    }
+
+    .manage-users th,
+    .manage-users td {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .manage-users h2 {
+        font-size: 18px;
+    }
+
+    .manage-users th,
+    .manage-users td {
+        font-size: 12px;
+        padding: 8px;
+    }
+}

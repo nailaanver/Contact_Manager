@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import LoginForm, UserForm
 from .models import Profile
 from .models import Contact
+from .models import User
 from .forms import ContactForm
 
 
@@ -87,30 +88,43 @@ def add_contact(request):
 def delete_contact(request, id):
     contact = Contact.objects.get(id=id)
     contact.delete()
-    return redirect('dashboard')
+    if request.user.is_superuser:
+        return redirect('admin_dashboard')  # Redirect admin to admin dashboard
+    else:
+        return redirect('dashboard') 
 
 
 
 
+
+@login_required
 def edit_contact(request, pk):
-    contact = get_object_or_404(Contact, pk=pk)  # get the contact object
+    contact = get_object_or_404(Contact, pk=pk)
     
     if request.method == 'POST':
         form = ContactForm(request.POST, instance=contact)
         if form.is_valid():
             form.save()
-            return redirect('dashboard')  # redirect after saving
+            # ✅ Redirect based on user type
+            if request.user.is_superuser:
+                # add ?section=manage_contact to tell dashboard which section to load
+                return redirect('/admin_dashboard/?section=manage_contact')
+            else:
+                return redirect('dashboard')
     else:
-        form = ContactForm(instance=contact)  # pre-fill existing data
+        form = ContactForm(instance=contact)
     
-    return render(request, 'edit.html', {'form': form, 'update': contact})
+    return render(request, 'edit.html', {'form': form})
+
+
 
 
 
 def dashboard_content(request):
     return render(request, 'partials/dashboard_content.html')
 def manage_users(request):
-    return render(request, 'partials/manage_users.html')
+    users = User.objects.all()  # fetch all users
+    return render(request, 'partials/manage_users.html', {'users': users})
 
 
 def manage_contact(request):
