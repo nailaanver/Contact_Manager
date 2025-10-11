@@ -35,7 +35,7 @@
                     <h3>Dashboard</h3>
                 </div>
 
-                <div class="option2 nav-option" data-page="{% url 'manage_users' %}">
+                <div class="nav-option option2" data-page="{% url 'manage_users' %}">
                     <i class="fas fa-user-cog"></i>
                     <h3>Manage Users</h3>
                 </div>
@@ -45,9 +45,10 @@
                     <h3>Manage Contact</h3>
                 </div>
 
+                <!-- ✅ Logout should be a link, not a div -->
                 <a href="{% url 'logout' %}" class="nav-option option4">
                     <i class="fa fa-sign-out-alt"></i>
-                    <h3>Logout</h3>
+                    <h3>Log Out</h3>
                 </a>
             </div>
         </nav>
@@ -63,10 +64,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     const mainContent = document.getElementById('main-content');
     const params = new URLSearchParams(window.location.search);
-    const section = params.get('section');  // Example: ?section=manage_contact
-    const message = params.get('msg');      // Optional message
+    const section = params.get('section');
+    const message = params.get('msg');
 
-    // 🟢 Show success message if exists
+    // ✅ Show success message if exists
     if (message) {
         const alertBox = document.createElement('div');
         alertBox.classList.add('alert-success');
@@ -75,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => alertBox.remove(), 3000);
     }
 
-    // 1️⃣ Decide which section to show first
+    // ✅ Decide which section to show first
     let defaultPageUrl = "{% url 'dashboard_content' %}";
     if (section === 'manage_contact') {
         defaultPageUrl = "{% url 'manage_contact' %}";
@@ -87,24 +88,25 @@ document.addEventListener('DOMContentLoaded', function() {
         setActiveOption('option1');
     }
 
-    // 2️⃣ Load the correct section
+    // ✅ Load the correct section
     fetch(defaultPageUrl)
         .then(response => response.text())
         .then(html => mainContent.innerHTML = html)
         .catch(err => console.error('Error loading content:', err));
 
-    // 3️⃣ Sidebar click handling
+    // ✅ Sidebar click handling
     document.querySelectorAll('.nav-option').forEach(item => {
         item.addEventListener('click', function(e) {
+            // Don't block logout link
+            if (this.classList.contains('option4')) return;
+
             e.preventDefault();
             const pageUrl = this.getAttribute('data-page');
             if (!pageUrl) return;
 
-            // Remove active class and add to current
             document.querySelectorAll('.nav-option').forEach(opt => opt.classList.remove('active'));
             this.classList.add('active');
 
-            // Load the selected page
             fetch(pageUrl)
                 .then(response => response.text())
                 .then(html => mainContent.innerHTML = html)
@@ -112,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Helper to activate sidebar item
+    // Helper for active state
     function setActiveOption(className) {
         document.querySelectorAll('.nav-option').forEach(opt => opt.classList.remove('active'));
         const target = document.querySelector('.' + className);
@@ -121,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- Optional basic CSS -->
+<!-- ✅ Styling -->
 <style>
 .nav-option.active {
     background-color: #007bff;
@@ -138,5 +140,4 @@ document.addEventListener('DOMContentLoaded', function() {
     font-weight: bold;
 }
 </style>
-
 {% endblock %}
