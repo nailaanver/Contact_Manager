@@ -144,3 +144,85 @@
 .btn-delete:hover {
     background-color: #b91c1c;
 }
+
+
+
+
+/* Profile Dropdown */
+.user-profile {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 65px;
+    right: 0;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    padding: 15px 20px;
+    min-width: 220px;
+    z-index: 100;
+    font-family: "Poppins", sans-serif;
+    animation: dropdownFade 0.25s ease;
+}
+
+/* Smooth show/hide */
+@keyframes dropdownFade {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Show dropdown */
+.dropdown-menu.show {
+    display: block;
+}
+
+/* Username + email */
+.dropdown-menu p {
+    margin: 0;
+    color: #4a148c;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.dropdown-menu p strong {
+    font-weight: 600;
+}
+
+.dropdown-menu hr {
+    margin: 10px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+/* Links inside dropdown */
+.dropdown-menu a {
+    display: block;
+    color: #4a148c;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 8px 0;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.dropdown-menu a:hover {
+    background: #f3e8ff;
+    color: #7e22ce;
+    padding-left: 5px;
+}
+
+/* Optional: little arrow above dropdown */
+.dropdown-menu::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    right: 15px;
+    border-width: 0 8px 10px 8px;
+    border-style: solid;
+    border-color: transparent transparent #fff transparent;
+    filter: drop-shadow(0 -2px 2px rgba(0,0,0,0.05));
+}
+

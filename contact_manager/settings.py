@@ -70,6 +70,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'contact_manager.wsgi.application'
 
 LOGIN_URL = 'login'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+
+
 
 
 # Database

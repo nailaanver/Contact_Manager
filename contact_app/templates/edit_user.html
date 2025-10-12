@@ -3,15 +3,121 @@
 {% block title %}Edit Users{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2>Edit User</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">Cancel</a>
-                <button type="submit" class="btn btn-primary">Save</button>
-                
+<div class="edit-user-wrapper">
+    <div class="edit-user-container">
+        <h2 class="edit-user-title">Edit User</h2>
+        <form method="POST" class="edit-user-form">
+            {% csrf_token %}
+            {{ form.as_p }}
 
-    </form>
+            <div class="form-buttons">
+                <button type="submit" class="btn-primary-purple">Save</button>
+                <a href="{% url 'admin_dashboard' %}" class="btn-cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
+
+<style>
+/* Page background */
+.edit-user-wrapper {
+    background: #e8eaff;
+    min-height: 100vh;
+    padding: 60px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Poppins", sans-serif;
+}
+
+/* Card container */
+.edit-user-container {
+    background: #fff;
+    padding: 40px 50px;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    max-width: 550px;
+    width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.edit-user-container:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+/* Title */
+.edit-user-title {
+    color: #4a148c;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 26px;
+}
+
+/* Form fields */
+.edit-user-form p {
+    margin-bottom: 15px;
+}
+
+.edit-user-form input,
+.edit-user-form select,
+.edit-user-form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+.edit-user-form input:focus,
+.edit-user-form select:focus,
+.edit-user-form textarea:focus {
+    border-color: #7e22ce;
+    box-shadow: 0 0 0 3px rgba(126, 34, 206, 0.15);
+    outline: none;
+}
+
+/* Buttons */
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.btn-primary-purple {
+    background: linear-gradient(135deg, #6a0dad, #9333ea);
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(130, 50, 220, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-primary-purple:hover {
+    background: linear-gradient(135deg, #5300b3, #7e22ce);
+    transform: translateY(-2px);
+}
+
+.btn-cancel {
+    background-color: #6b7280;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 500;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background-color: #4b5563;
+    transform: translateY(-2px);
+}
+</style>
 {% endblock %}

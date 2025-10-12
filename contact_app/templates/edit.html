@@ -3,13 +3,127 @@
 {% block title %}Edit Contact{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2>Edit Contact</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">Cancel</a>
-    </form>
+<div class="edit-contact-wrapper">
+    <div class="edit-contact-container">
+        <h2 class="edit-contact-title">Edit Contact</h2>
+        <form method="POST" class="edit-contact-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <div class="form-buttons">
+                <button type="submit" class="btn-primary-purple">Save</button>
+
+                {% if user.is_superuser %}
+                    <a href="{% url 'admin_dashboard' %}" class="btn-cancel">Cancel</a>
+                {% else %}
+                    <a href="{% url 'dashboard' %}" class="btn-cancel">Cancel</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
 </div>
+
+<style>
+/* Page background */
+.edit-contact-wrapper {
+    background: #e8eaff;
+    min-height: 100vh;
+    padding: 60px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Poppins", sans-serif;
+}
+
+/* White card container */
+.edit-contact-container {
+    background: #fff;
+    padding: 40px 50px;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    max-width: 550px;
+    width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.edit-contact-container:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+/* Title */
+.edit-contact-title {
+    color: #4a148c;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 26px;
+}
+
+/* Form styling */
+.edit-contact-form p {
+    margin-bottom: 15px;
+}
+
+.edit-contact-form input,
+.edit-contact-form select,
+.edit-contact-form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+.edit-contact-form input:focus,
+.edit-contact-form select:focus,
+.edit-contact-form textarea:focus {
+    border-color: #7e22ce;
+    box-shadow: 0 0 0 3px rgba(126, 34, 206, 0.15);
+    outline: none;
+}
+
+/* Buttons */
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.btn-primary-purple {
+    background: linear-gradient(135deg, #6a0dad, #9333ea);
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(130, 50, 220, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-primary-purple:hover {
+    background: linear-gradient(135deg, #5300b3, #7e22ce);
+    transform: translateY(-2px);
+}
+
+/* Cancel button */
+.btn-cancel {
+    background-color: #6b7280;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 500;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background-color: #4b5563;
+    transform: translateY(-2px);
+}
+</style>
 {% endblock %}
