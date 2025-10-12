@@ -1,41 +1,38 @@
 {% extends 'master.html' %}
-{% load static %}
+{% load static%}
 
 {% block title %}Dashboard - Contact Manager{% endblock %}
 
 {% block content %}
-<div class="dashboard-container">
-    <!-- 🔹 Header Section with Welcome + Profile -->
-    <header class="dashboard-header">
-        <h2 class="welcome">Welcome, {{ user.username }}</h2>
+<div class="dashboard-wrapper">
 
-        <div class="profile-menu">
-            <img src="{% static 'images/profile-icon.png' %}" alt="Profile" class="profile-icon" onclick="toggleDropdown()">
-            
-            <!-- Dropdown Menu -->
-            <div id="profileDropdown" class="dropdown-content">
-                <p><strong>{{ user.username }}</strong></p>
-                <p>{{ user.email }}</p>
-                <hr>
-                <a href="{% url 'logout' %}">Logout</a>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="header-left">
+            <div>
+            <h2 class="welcome-text">Welcome, {{ user.username }}</h2>
+            </div>
+            <div class="user-profile">
+                <img src="{% static 'images/profile-icon.png' %}" alt="Profile" class="profile-avatar" onclick="toggleDropdown()">
+                <div id="profileDropdown" class="dropdown-menu">
+                    <p><strong>{{ user.username }}</strong></p>
+                    <p>{{ user.email }}</p>
+                    <hr>
+                    <a href="{% url 'edit_user' user.pk %}">Edit Profile</a>
+                    <a href="{% url 'logout' %}">Log Out</a>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- 🔹 All Contacts Section -->
-    <div class="contacts-section">
-        <div class="contacts-header">
-            <h2>All Contacts</h2>
-            <div class="add-btn-sec">
-                <a href="{% url 'add_contact' %}">
-                    <button class="add-btn">Add Contact</button>
-                </a>
-            </div>
-        </div>
+    <!-- Add Contact Button -->
+   
 
-        <!-- 🔹 Contact Table -->
-        <div class="table-container">
-            <table class="contact-table">
+    <!-- Contacts Section -->
+    <section class="contacts-container">
+        <h2 class="section-title">All Contacts</h2>
+        <div class="table-wrapper">
+            <table class="contacts-table">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -51,33 +48,45 @@
                         <td>{{ contact.email }}</td>
                         <td>{{ contact.phone_number }}</td>
                         <td>
-                            <a href="{% url 'edit_contact' contact.pk %}" class="btn edit-btn">Edit</a>
-                            <a href="{% url 'delete_contact' contact.id %}" class="btn delete-btn"
-                               onclick="return confirm('Are you sure you want to delete this contact?');">Delete</a>
+                            <a href="{% url 'edit_contact' contact.pk %}" class="btn-action btn-edit">
+                                <i class="fa fa-pen"></i> Edit
+                            </a>
+                            <a href="{% url 'delete_contact' contact.id %}" class="btn-action btn-delete" onclick="return confirm('Are you sure you want to delete this contact?');">
+                                <i class="fa fa-trash"></i> Delete
+                            </a>
                         </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4">No contacts found.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+             
         </div>
-    </div>
+
+        <a href="{% url 'add_contact' %}" class="btn-add-contact">
+            <i class="fa fa-plus"></i> Add Contact
+        </a>
+
+    </section>
+
 </div>
 
-<!-- 🔹 JavaScript for Dropdown -->
+<!-- JS for Profile Dropdown -->
 <script>
 function toggleDropdown() {
     document.getElementById("profileDropdown").classList.toggle("show");
 }
 
-// Close dropdown if clicked outside
 window.onclick = function(event) {
-    if (!event.target.matches('.profile-icon')) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
+    if (!event.target.matches('.profile-avatar')) {
+        var dropdowns = document.getElementsByClassName("dropdown-menu");
         for (var i = 0; i < dropdowns.length; i++) {
             dropdowns[i].classList.remove('show');
         }
     }
 }
 </script>
-
 {% endblock %}

@@ -2,6 +2,7 @@ from urllib import request
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from .forms import LoginForm, UserForm
 from .models import Profile
 from .models import Contact
@@ -84,7 +85,7 @@ def add_contact(request):
 
 
 
-
+@login_required
 def delete_contact(request, id):
     contact = Contact.objects.get(id=id)
     contact.delete()
@@ -136,3 +137,20 @@ def manage_contact(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
+
+
+
+    return render(request, 'edit_user.html', {'form': form})
+
+@login_required
+def delete_user(request, id):
+    user = get_object_or_404(User, id=id)
+    user.delete()
+
+    if request.user.is_superuser:
+        url = reverse('admin_dashboard') + '?section=manage_users'
+        return redirect(url)
+    else:
+        return redirect('dashboard')

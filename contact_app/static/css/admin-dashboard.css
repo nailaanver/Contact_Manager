@@ -27,7 +27,7 @@ body {
     overflow-x: hidden;
 }
 
-header {
+.header {
     height: 70px;
     width: 100vw;
     padding: 0 30px;
@@ -214,7 +214,7 @@ header {
     background-color: #dadada;
     cursor: pointer;
 }
-.option4 a {
+.option4  {
     text-decoration: none;
     color: black;
 }

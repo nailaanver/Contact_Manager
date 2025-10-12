@@ -4,7 +4,7 @@
 {% block title %}Admin Dashboard{% endblock %}
 
 {% block content %}
-<header>
+<header class="header">
     <div class="logosec">
         <div class="logo">Admin Dashboard</div>
         <h2 class="welcome-admin">Welcome, {{ user.username }}</h2>
@@ -44,8 +44,6 @@
                     <i class="fa fa-users"></i>
                     <h3>Manage Contact</h3>
                 </div>
-
-                <!-- ✅ Logout should be a link, not a div -->
                 <a href="{% url 'logout' %}" class="nav-option option4">
                     <i class="fa fa-sign-out-alt"></i>
                     <h3>Log Out</h3>
