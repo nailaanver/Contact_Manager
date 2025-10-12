@@ -13,13 +13,13 @@ class UserForm(forms.ModelForm):
         help_texts = {
             'username' :None,
         }
-        def clean(self):
-            cleaned_data = super().clean()
-            password = cleaned_data.get('password')
-            confirm_password = cleaned_data.get('confirmed password')
-            if password != confirm_password:
-                raise forms.ValidationError('Passwords do not match')
-            return cleaned_data
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirmed password')
+        if password != confirm_password:
+            raise forms.ValidationError('Passwords do not match')
+        return cleaned_data
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)

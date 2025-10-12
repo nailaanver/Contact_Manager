@@ -8,6 +8,8 @@ from .models import Profile
 from .models import Contact
 from .models import User
 from .forms import ContactForm
+from django.contrib.auth.hashers import make_password
+
 
 
 
@@ -122,7 +124,14 @@ def edit_contact(request, pk):
 
 
 def dashboard_content(request):
-    return render(request, 'partials/dashboard_content.html')
+    total_users = User.objects.count()
+    total_contacts = Contact.objects.count()
+
+    context = {
+        'total_users': total_users,
+        'total_contacts': total_contacts
+    }
+    return render(request, 'partials/dashboard_content.html',context)
 def manage_users(request):
     users = User.objects.all()  # fetch all users
     return render(request, 'partials/manage_users.html', {'users': users})
@@ -142,7 +151,33 @@ def logout_view(request):
 
 
 
+@login_required
+def edit_user(request, pk):
+    user = get_object_or_404(User, pk=pk)
+
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            user_obj = form.save(commit=False)
+
+            # ✅ Rehash password only if changed
+            password = form.cleaned_data.get('password')
+            if password:
+                user_obj.password = make_password(password)
+            
+            user_obj.save()
+
+            # ✅ Redirect based on user type
+            if request.user.is_superuser:
+                # Redirect to admin dashboard and load manage_users section
+                return redirect('/admin_dashboard/?section=manage_users')
+            else:
+                return redirect('dashboard')
+    else:
+        form = UserForm(instance=user)
+
     return render(request, 'edit_user.html', {'form': form})
+
 
 @login_required
 def delete_user(request, id):
