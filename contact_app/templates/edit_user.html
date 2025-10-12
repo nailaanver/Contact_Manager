@@ -3,6 +3,15 @@
 {% block title %}Edit Users{% endblock %}
 
 {% block content %}
+
+{% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <div class="message {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
+
 <div class="edit-user-wrapper">
     <div class="edit-user-container">
         <h2 class="edit-user-title">Edit User</h2>

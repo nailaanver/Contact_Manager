@@ -1,3 +1,4 @@
+from django.contrib import messages
 from urllib import request
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login, logout
@@ -153,32 +154,6 @@ def logout_view(request):
 
 
 
-@login_required
-def edit_user(request, pk):
-    user = get_object_or_404(User, pk=pk)
-
-    if request.method == 'POST':
-        form = UserForm(request.POST, instance=user)
-        if form.is_valid():
-            user_obj = form.save(commit=False)
-
-            # ✅ Rehash password only if changed
-            password = form.cleaned_data.get('password')
-            if password:
-                user_obj.password = make_password(password)
-            
-            user_obj.save()
-
-            # ✅ Redirect based on user type
-            if request.user.is_superuser:
-                # Redirect to admin dashboard and load manage_users section
-                return redirect('/admin_dashboard/?section=manage_users')
-            else:
-                return redirect('dashboard')
-    else:
-        form = UserForm(instance=user)
-
-    return render(request, 'edit_user.html', {'form': form})
 
 
 @login_required
@@ -191,3 +166,70 @@ def delete_user(request, id):
         return redirect(url)
     else:
         return redirect('dashboard')
+    
+    
+    
+@login_required
+def edit_user(request, pk):
+    # Get the user to edit
+    user_obj = get_object_or_404(User, pk=pk)
+
+    # Permission check: only superuser or the user themselves can edit
+    if not request.user.is_superuser and request.user.pk != user_obj.pk:
+        messages.error(request, "You do not have permission to edit this user.")
+        return redirect('dashboard')
+
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=user_obj)
+        if form.is_valid():
+            user = form.save(commit=False)
+            password = form.cleaned_data.get('password')
+            if password:  # Only update password if provided
+                user.password = make_password(password)
+            user.save()
+            messages.success(request, "User updated successfully!")
+
+            # Redirect based on user type
+            if request.user.is_superuser:
+                url = reverse('admin_dashboard') + '?section=manage_users'
+                return redirect(url)
+            else:
+                return redirect('dashboard')
+        else:
+            messages.error(request, "Please fix the errors below.")
+    else:
+        form = UserForm(instance=user_obj)
+        form.fields['password'].initial = ''
+        form.fields['confirm_password'].initial = ''
+
+    return render(request, 'edit_user.html', {'form': form})
+
+
+def forgot_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        try:
+            user = User.objects.get(email=email)
+            # ✅ Redirect to reset-password page with username
+            return redirect('reset_password', username=user.username)
+        except User.DoesNotExist:
+            messages.error(request, "No account found with that email.")
+    return render(request, 'forgot_password.html')
+
+
+def reset_password(request, username):
+    user = get_object_or_404(User, username=username)
+
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if password == confirm_password:
+            user.password = make_password(password)
+            user.save()
+            messages.success(request, "Password reset successfully! You can now log in.")
+            return redirect('login')
+        else:
+            messages.error(request, "Passwords do not match.")
+
+    return render(request, 'reset_password.html', {'username': username})

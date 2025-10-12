@@ -19,10 +19,8 @@ urlpatterns = [
     path('dashboard_content/', views.dashboard_content, name='dashboard_content'),
     path('profile/', views.profile_view, name='profile'),
     
+    path('forgot-password/', views.forgot_password, name='forgot_password'),
+    path('reset-password/<str:username>/', views.reset_password, name='reset_password'),
+
     
-    # ✅ Password Reset URLs
-    path('password_reset/', auth_views.PasswordResetView.as_view(template_name='password_reset.html'), name='password_reset'),
-    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'), name='password_reset_done'),
-    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'), name='password_reset_confirm'),
-    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
 ]
