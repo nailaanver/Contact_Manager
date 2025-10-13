@@ -85,6 +85,16 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+DEMO_CREDENTIALS = [
+    {   "username":"Naila_Anver",
+        "email": "naila@gmail.com",
+        "password": "naila@123"
+    },
+    {   "username":"Nailaa",
+        "email": "Naila22@gmail.com",
+        "password": "Naila@123"
+    },
+]
 
 
 # Password validation

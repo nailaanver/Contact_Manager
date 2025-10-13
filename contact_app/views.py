@@ -32,7 +32,11 @@ def register(request):
 
 
 # --- Login ---
+from django.conf import settings  # 👈 import this at the top
+
 def login_View(request):
+    demo_credentials = getattr(settings, "DEMO_CREDENTIALS", [])  # 👈 add this line
+
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -47,12 +51,18 @@ def login_View(request):
                     return redirect('dashboard')
             else:
                 # Invalid credentials
-                return render(request, 'login.html', {'form': form, 'error': 'Invalid credentials'})
+                return render(
+                    request,
+                    'login.html',
+                    {'form': form, 'error': 'Invalid credentials', 'demo_credentials': demo_credentials}  # 👈 include here
+                )
     else:
         form = LoginForm()
 
     # 👇 Always return something for GET
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'login.html', {'form': form, 'demo_credentials': demo_credentials})  # 👈 and here
+
+
 
 
 # --- Dashboards ---
